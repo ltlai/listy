@@ -1,7 +1,7 @@
 ApartmentListInterview2013
 ==========================
 
-Size of the social network for LISTY: 51,710.
+**Size of the social network for LISTY: 51,710.**
 
 I experimented with several different solutions to the problem. Only the fastest is used in `network_size_calculator.rb`, but the others are included in `alternative_methods.rb`. Here I'll explain my logic for each and how I arrived at my final solution.
 
@@ -35,9 +35,9 @@ Finally, I tried to find ways to make the solution faster:
 
 This was actually a change I made while still using the recursive solution. I had initially used an array to store the dictionary as well as the social network of the word. But I discovered that `array#include?` is a much more expensive operation than `hash#[]`.
 
-- Using `>>` instead of `+` to concatenate strings: 
+- Using `<<` instead of `+` to concatenate strings: 
 
-With `generate_variants_v1`, the slowest part of the process was constructing each variant by concatenating portions of each word with each letter of the alphabet. I did a quick Google search to see if there was a faster way to do this and discovered that `>>` is faster than `+`. This cut the time required for the full dictionary from 55 to 48 seconds, but concatenation was still a pretty time-consuming operation.
+With `generate_variants_v1`, the slowest part of the process was constructing each variant by concatenating portions of each word with each letter of the alphabet. I did a quick Google search to see if there was a faster way to do this and discovered that `<<` is faster than `+`. This cut the time required for the full dictionary from 55 to 48 seconds, but concatenation was still a pretty time-consuming operation.
 
 - Using string element assignment (`[]=`) instead of string concatenation:
 
