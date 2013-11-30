@@ -1,51 +1,45 @@
 ApartmentListInterview2013
 ==========================
 
-Problem
+Size of the social network for LISTY: 51,710.
+
+I experimented with several different solutions to the problem. Only the fastest is used in network_size_calculator.rb, but the others are included in alternative_methods.rb. Here I'll explain my logic for each and how I arrived at my final solution.
+
+Recursive Solution - `build_network_recursively_v1`
 -------
 
-Your task is to count the size of the social network of the word LISTY in the dictionary provided.  
-We define two words as being friends if the edit distance between them is 1.  For this problem, we will 
-be using Levenshtein distance (http://en.wikipedia.org/wiki/Levenshtein_distance) as our edit distance.  
-The size of a word's social network is equal to that word, plus the number of words who are friends with it, 
-plus the number of friends each of its friends has, and so on.  A word is in its own social network, so if 
-our dictionary is simply `[HI]` then the size of the social network for HI is 1. 
- 
- 
-Example
+Initially, I attempted to solve the problem recursively. I wrote methods that would determine if two given words are friends and iterated through the dictionary, adding friends to a word's social network until there were no new friends to be found. 
+
+This method worked for the very small test dictionary, but was extremely slow for the larger dictionaries because it had to iterate through the entire dictionary every time a new friend was found. 
+
+Recursive Solution - Find Variants First
+`build_network_recursively_v2`
 -------
-With dictionary `[HI HERE THERE HER HE SHE HEAR HALLOW]`
-The size of the social network for HI is 7.  We calculate this as follows: 
 
-HI is friends with HE, because they are edit distance 1 apart.
+Next, I tried first generating all the possible variants that are edit distance 1 from the original word. Then I would iterate through the set of variants and add them to the network if they appeared in the dictionary, recursing with each dictionary match.
 
-HE is friends with SHE and HER.
+This solution was much faster than the first recursive solution, but would return a "stack level too deep" error for dictionaries larger than the eighth dictionary. I tried increasing the permittable stack size to the maximum allowed, but still got the same error.
 
-HER is friends with HEAR and HERE.
+Iterative Solution - `build_network_iteratively`
+-------
 
-HERE is friends with THERE.
+After it became clear that a recursive solution was not going to work for large dictionaries, I switched to an iterative solution. 
 
-As before, HI is in its own social network. 
-```
-1 + 1 + (1+ 1) + (1 +  1) +  1    = 7
-HI  HE  SHE HER   HEAR HERE  THERE
-```
- 
-Please note that we want to see production quality code! Be sure to include any and all tests and
-comments in addition to the logic behind your solution. We want to see code that you feel proud of 
-and would check in to source control and push to production for use in a professional environment.
-Once your solution is correct, try to make your algorithm as fast as possible. Inclusion of comments, 
-tests, and a (correct!) speedy solution are all important in our grading of the submissions.
- 
-We have included the entire dictionary in dictionary.txt, as well as a few smaller dictionaries for you
-to test your code on as you are developing a solution.  For your final answer, we want the size of the 
-social network for LISTY given the entire 178,692 word dictionary in dictionary.txt. 
-To help you get started, the size of the social network for LISTY in the very_small_test_dictionary.txt is 5
+Using the `generate_variants_v1` method, this was actually a bit slower than `build_network_recursively_v2`, but it ran successfully with the full dictionary, taking about 55 seconds to complete.
 
-Submission
-----------
-To submit your solution, please send your code and resume to:
-solutions@apartmentlist.com 
-and put the size of the social network for LISTY in the subject.
- 
-Good luck!
+Speed Optimizations
+-------
+
+Finally, I tried to find ways to make the solution faster:
+
+1. Using hashes instead of arrays:
+
+This was actually a change I made while still using the recursive solution. I had initially used an array to store the dictionary as well as the social network of the word. But I discovered that `array#include?` is a much more expensive operation than `hash#[]`.
+
+2. Using `>>` instead of `+` to concatenate strings: 
+
+With `generate_variants_v1`, the slowest part of the process was constructing each variant by concatenating portions of each word with each letter of the alphabet. I did a quick Google search to see if there was a faster way to do this and discovered that `>>` is faster than `+`. This cut the time required for the full dictionary from 55 to 48 seconds, but concatenation was still a pretty time-consuming operation.
+
+3. Using string element assignment (`[]=`) instead of string concatenation:
+
+Using `[]=` instead of concatentation for letter replacement and insertion further reduced the total time to about 33 seconds. It also made the `generate_variants` method longer and a bit harder to read, but the improvement in speed was substantial.
