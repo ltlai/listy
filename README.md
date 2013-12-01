@@ -12,7 +12,7 @@ Initially, I attempted to solve the problem recursively. I wrote methods that wo
 
 This method worked for the very small test dictionary, but was extremely slow for the larger dictionaries because it had to iterate through the entire dictionary every time a new friend was found. 
 
-`build_network_recursively_v2` - Find Variants First
+`build_network_recursively_v2`
 -------
 
 Next, I tried first generating all the possible variants that are edit distance 1 from the original word. Then I would iterate through the set of variants and add them to the network if they appeared in the dictionary, recursing with each dictionary match.
