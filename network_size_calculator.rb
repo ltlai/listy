@@ -1,13 +1,8 @@
 require 'benchmark'
 
 class NetworkSizeCalculator
-  attr_reader :dictionary
-
-  def initialize(dictionary_file)
-    @dictionary = {}
-    File.foreach(dictionary_file) do |line|
-      @dictionary[line.chomp] = true
-    end
+  def initialize(dictionary)
+    @dictionary = dictionary
   end
 
   def network_size(word)
@@ -55,9 +50,13 @@ end
 
 
 if __FILE__==$0
+  dictionary = {}
+  File.foreach('eighth_dictionary.txt') do |line|
+      dictionary[line.chomp] = true
+  end
   time = Benchmark.measure do
-    dictionary = NetworkSizeCalculator.new('dictionary.txt')
-    puts dictionary.network_size("LISTY")
+    dict = NetworkSizeCalculator.new(dictionary)
+    puts dict.network_size("LISTY")
   end
   puts time
 end
