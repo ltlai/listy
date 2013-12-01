@@ -28,18 +28,18 @@ class NetworkSizeCalculator
     word = word.dup
     variants = []
     word.length.times do |i|
-      variants << (word[0...i] << word[(i+1)..-1])    #deletion
+      variants << (word[0...i] << word[(i+1)..-1])   #DELETION
       original_letter = word[i]
       ('A'..'Z').each do |letter|
-        word[i] = letter    #replacement
+        word[i] = letter    #REPLACEMENT
         variants << word.dup
       end
       word[i] = original_letter
     end
-    (word.length + 1).times do |i|
+    (word.length + 1).times do |i|   #INSERTION
       word.insert(i, "_")
       ('A'..'Z').each do |letter|
-        word[i] = letter    #insertion
+        word[i] = letter
         variants << word.dup
       end
       word[i] = ""
