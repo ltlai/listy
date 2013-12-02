@@ -53,20 +53,27 @@ describe NetworkSizeCalculator do
   end
 
   describe "#build_network_iteratively" do
-    context "a word has no friends in the dictionary" do
+    context "a word is in the dictionary but has no friends in the dictionary" do
       it "returns a network containing just the word" do
         expect(calculator.build_network_iteratively("LIT")).to eq({"LIT" => true})
       end
     end
 
-    context "a word is not in the dictionary" do
+    context "a word is not in the dictionary and has no friends in the dictionary" do
       it "returns a network containing just the word" do
         expect(calculator.build_network_iteratively("HI")).to eq({"HI" => true})
       end
     end
 
+    context "a word is not in the dictionary but has friends in the dictionary" do
+      it "returns all the words in the social network, including the word itself" do
+        expect(calculator.build_network_iteratively("LITANIEST").size).to eq(2)
+      end
+    end
+
     it "returns all the words in the social network" do
       expect(calculator.build_network_iteratively("LISTY").size).to eq(5)
+      expect(calculator.build_network_iteratively("LITCHI").size).to eq(2)
     end
   end
 end
