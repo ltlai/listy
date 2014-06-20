@@ -1,4 +1,5 @@
 require 'benchmark'
+require 'pry'
 
 class NetworkSizeCalculator
   def initialize(dictionary)
@@ -6,7 +7,7 @@ class NetworkSizeCalculator
   end
 
   def network_size(word)
-  build_network_iteratively(word).size
+    build_network_iteratively(word).size
   end
 
   def build_network_iteratively(word)
@@ -21,7 +22,7 @@ class NetworkSizeCalculator
         end
       end
     end
-    return network
+    network
   end
 
   def generate_variants(word)
@@ -66,15 +67,14 @@ class NetworkSizeCalculator
   end
 end
 
-
 if __FILE__==$0
   dictionary = {}
-  File.foreach('eighth_dictionary.txt') do |line|
-      dictionary[line.chomp] = true
+  File.foreach('dictionary.txt') do |line|
+    dictionary[line.chomp] = true
   end
   time = Benchmark.measure do
-    dict = NetworkSizeCalculator.new(dictionary)
-    puts dict.network_size("LISTY")
+    calculator = NetworkSizeCalculator.new(dictionary)
+    puts calculator.network_size('LISTY')
   end
   puts time
 end
