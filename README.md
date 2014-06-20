@@ -1,4 +1,4 @@
-ApartmentListInterview2013
+Network Calculator
 ==========================
 
 **Size of the social network for LISTY: 51,710.**
@@ -41,4 +41,4 @@ With `generate_variants_v1`, the slowest part of the process was constructing ea
 
 - Using string element assignment (`[]=`) instead of string concatenation:
 
-Using `[]=` instead of concatentation for letter replacement and insertion further reduced the total time to about 33 seconds. It also made the `generate_variants` method longer and a bit harder to read, but the improvement in speed was substantial.
+Using `[]=` instead of concatentation for letter replacement and insertion further reduced the total time to about 33 seconds.
