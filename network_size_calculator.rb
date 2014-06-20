@@ -25,26 +25,44 @@ class NetworkSizeCalculator
   end
 
   def generate_variants(word)
-    word = word.dup
     variants = []
-    word.length.times do |i|
-      variants << (word[0...i] << word[(i+1)..-1])   #DELETION
-      original_letter = word[i]
-      ('A'..'Z').each do |letter|
-        word[i] = letter    #REPLACEMENT
-        variants << word.dup
-      end
-      word[i] = original_letter
+    word.length.times do |index|
+      variants << word_after_deletion(word, index)
+      variants += words_after_replacement(word, index)
     end
-    (word.length + 1).times do |i|   #INSERTION
-      word.insert(i, "_")
-      ('A'..'Z').each do |letter|
-        word[i] = letter
-        variants << word.dup
-      end
-      word[i] = ""
+    variants += words_after_insertion(word)
+    variants.flatten
+  end
+
+  def word_after_deletion(word, index)
+    word[0...index] << word[(index + 1)..-1]
+  end
+
+  def words_after_replacement(word, index)
+    variant_set = []
+    original_letter = word[index]
+    ('A'..'Z').each do |new_letter|
+      word[index] = new_letter
+      # We need to dupe the word to prevent future changes to the word from 
+      # changing the existing elements of variant_set
+      variant_set << word.dup
     end
-    variants
+    word[index] = original_letter
+    variant_set
+  end
+
+  def words_after_insertion(word)
+    variant_set = []
+    (word.length + 1).times do |i|
+      ('A'..'Z').each do |letter|
+        word.insert(i, letter)
+        # We need to dupe the word to prevent future changes to the word from 
+        # changing the existing elements of variant_set
+        variant_set << word.dup
+        word[i] = ''
+      end
+    end
+    variant_set
   end
 end
 
