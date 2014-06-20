@@ -5,7 +5,7 @@ def build_network_recursively_v1(word, network = {word => true})
       build_network_recursively_v1(dict_word, network)
     end
   end
-  return network
+  network
 end
 
 def build_network_recursively_v2(word, network = {word => true})
@@ -15,7 +15,7 @@ def build_network_recursively_v2(word, network = {word => true})
       build_network_recursively_v2(variant, network)
     end
   end
-  return network
+  network
 end
 
 def friends?(word_1, word_2)
@@ -25,7 +25,7 @@ def friends?(word_1, word_2)
   if word_1.length == word_2.length
     return num_letters_diff(word_1, word_2) == 1
   end
-  return insertion_or_deletion?(word_1, word_2)
+  insertion_or_deletion?(word_1, word_2)
 end
 
 def num_letters_diff(word_1, word_2)  # For words of same length
@@ -40,9 +40,9 @@ end
 
 def insertion_or_deletion?(word_1, word_2)
   if word_1.length > word_2.length
-    longer_word, shorter_word = word_1.split(""), word_2.split("")
+    longer_word, shorter_word = word_1.split(''), word_2.split('')
   else
-    longer_word, shorter_word = word_2.split(""), word_1.split("")
+    longer_word, shorter_word = word_2.split(''), word_1.split('')
   end
   longer_word.length.times do |i|
     if longer_word[i] != shorter_word[i]
@@ -57,7 +57,7 @@ def generate_variants_v1(word)
   word.length.times do |i|
     variants << word[0...i] + word[(i+1)..-1]    #deletion
     ('A'..'Z').each do |letter|
-      variants << word[0...i] + letter + word[(i+1)..-1]    #replacement
+      variants << word[0...i] + letter + word[(i + 1)..-1]    #replacement
     end
   end
   (word.length + 1).times do |i|
