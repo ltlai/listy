@@ -1,6 +1,16 @@
 Network Calculator
 ==========================
 
+Problem
+-------
+
+The task is to count the size of the social network of the word LISTY in the dictionary provided. We define two words as being friends if the edit distance between them is 1. For this problem, we will be using Levenshtein distance (http://en.wikipedia.org/wiki/Levenshtein_distance) as our edit distance.
+
+The size of a word's social network is equal to that word, plus the number of words who are friends with it, plus the number of friends each of its friends has, and so on. A word is in its own social network, so if our dictionary is simply [HI] then the size of the social network for HI is 1.
+
+Solution
+-------
+
 **Size of the social network for LISTY: 51,710.**
 
 I experimented with several different solutions to the problem. Only the fastest is used in `network_size_calculator.rb`, but the others are included in `alternative_methods.rb`. Here I'll explain my logic for each and how I arrived at my final solution.
